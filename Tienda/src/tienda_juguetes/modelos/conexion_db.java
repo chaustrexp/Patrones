@@ -12,12 +12,17 @@ public class conexion_db {
     private Connection conex;
     
     public conexion_db () throws SQLException {
-        this.url = "jdbc:mysql://localhost:3307/tienda";
+        this.url = "jdbc:mysql://localhost:3306/tienda";
         this.usuario = "root";
         this.clave = "";
     }
 
     public Connection hacerConexion () throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Driver MySQL no encontrado en el Classpath: " + e.getMessage());
+        }
         this.conex = DriverManager.getConnection(this.url, this.usuario, this.clave);
         System.out.println("conexion exitosa...");
         return conex;

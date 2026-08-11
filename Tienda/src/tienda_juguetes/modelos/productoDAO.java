@@ -1,38 +1,37 @@
 package tienda_juguetes.modelos;
 
-import java.sql.PreparedStatement;
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class productoDAO {
+public class ProductoDAO {
     public Connection connex;
     public conexion_db objconex;
     
-    public productoDAO() throws SQLException{
+    public ProductoDAO() throws SQLException{
         this.objconex = new conexion_db();
     }
     
-    public void consultarProducto() throws SQLException {
+    public java.util.ArrayList<productoModelo> consultarProducto() throws SQLException {
+        java.util.ArrayList<productoModelo> lista = new java.util.ArrayList<>();
         String textoSql ="SELECT * FROM producto";
         Connection conexion = this.objconex.hacerConexion();
         PreparedStatement consultarSql = conexion.prepareStatement(textoSql);
         ResultSet resultado = consultarSql.executeQuery();
-        //System.out.println("xxx: " + resultado);
-        //System.out.println("xxx: " + resultado.next());
         
         while (resultado.next()) {
-            String id = resultado.getString("codigo_id");
-            String nombre = resultado.getString("nombre_producto");
-            System.out.println("Codigo: " + id);
-            System.out.println("nombre: " + nombre);
+            String id = resultado.getString("id_producto");
+            String nombre = resultado.getString("id_nombre");
+            lista.add(new productoModelo(id, nombre));
         }
         conexion.close();
+        return lista;
     }
     
     public void guardarProducto(productoModelo objProdModelo) throws SQLException {
         Connection conexion = this.objconex.hacerConexion();
-        String textoSql = "INSERT INTO producto (codigo_id , nombre_producto)"
+        String textoSql = "INSERT INTO producto (id_producto , id_nombre)"
                 + " VALUES (?, ?)" ;
         
         PreparedStatement consultaSql = conexion.prepareStatement(textoSql);

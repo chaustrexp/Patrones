@@ -25,7 +25,7 @@ public class Conexion {
     }
 
     public void consultarInfo() throws SQLException {
-        String textoSql = "SELECT * FROM estudiantes";
+        String textoSql = "SELECT * FROM producto";
         PreparedStatement consulta = this.conex.prepareStatement(textoSql);
 
         ResultSet resultado = consulta.executeQuery();
